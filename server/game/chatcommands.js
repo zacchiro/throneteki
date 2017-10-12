@@ -25,6 +25,7 @@ class ChatCommands {
             '/remove-keyword': this.removeKeyword,
             '/remove-trait': this.removeTrait,
             '/reset-challenges-count': this.resetChallengeCount,
+            '/reset-game': this.resetGame,
             '/reveal-hand': this.revealHand,
             '/str': this.strength,
             '/strength': this.strength,
@@ -301,6 +302,11 @@ class ChatCommands {
     resetChallengeCount(player) {
         player.challenges.reset();
         this.game.addAlert('danger', '{0} uses /reset-challenges-count to reset the number of challenges performed', player);
+    }
+
+    resetGame(player) {
+        this.game.reset();
+        this.game.addAlert('danger', '{0} uses /reset-game to reset the game', player);
     }
 
     cancelPrompt(player) {

@@ -316,6 +316,13 @@ class Player extends Spectator {
         });
     }
 
+    emptyCardPile(pile) {
+        pile.each(card => {
+            this.removeCardFromPile(card);
+            card.events.unregisterAll();
+        });
+    }
+
     resetDrawDeck() {
         this.resetCardPile(this.hand);
         this.hand = _([]);
@@ -350,15 +357,36 @@ class Player extends Spectator {
         this.preparedDeck = preparedDeck;
     }
 
-    initialise() {
-        this.prepareDecks();
-        this.initDrawDeck();
-
+    resetStats() {
         this.gold = 0;
         this.readyToStart = false;
         this.limitedPlayed = 0;
         this.maxLimited = 1;
         this.activePlot = undefined;
+        this.setup = false;
+    }
+
+    initialise() {
+        this.prepareDecks();
+        this.initDrawDeck();
+
+        this.resetStats();
+    }
+
+    reset() {
+        this.emptyCardPile(this.hand);
+        this.emptyCardPile(this.cardsInPlay);
+        this.emptyCardPile(this.discardPile);
+        this.emptyCardPile(this.deadPile);
+        this.emptyCardPile(this.plotDiscard);
+        this.emptyCardPile(this.outOfGamePile);
+        this.emptyCardPile(this.schemePlots);
+        this.emptyCardPile(this.conclavePile);
+
+        this.prepareDecks();
+        this.shuffleDrawDeck();
+
+        this.resetStats();
     }
 
     startGame() {

@@ -640,6 +640,23 @@ class Game extends EventEmitter {
         this.continue();
     }
 
+    reset() {
+        _.each(this.getPlayers(), player => {
+            player.reset();
+        });
+
+        this.pipeline.initialise([
+            new SetupPhase(this),
+            new SimpleStep(this, () => this.beginRound())
+        ]);
+
+        this.startedAt = new Date();
+
+        this.round = 0;
+
+        this.continue();
+    }
+
     gatherAllCards() {
         let playerCards = _.reduce(this.getPlayers(), (cards, player) => {
             return cards.concat(player.preparedDeck.allCards);
